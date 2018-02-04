@@ -1,0 +1,63 @@
+
+
+
+mecab-ipadic-neologdをRubyから使う
+
+環境はUbuntu15.04
+neologd/mecab-ipadic-neologd
+buruzaemon/natto
+MeCabをインストールする
+#インストール
+$ sudo apt-get install mecab
+
+#インストール確認
+$ mecab --version
+mecab of 0.996
+
+$ echo "おはよう" | mecab
+おはよう        感動詞,*,*,*,*,*,おはよう,オハヨウ,オハヨー
+EOS
+nattoをインストールする
+#インストール
+$ gem install natto
+#もしくは
+$ vim Gemfile
++ gem 'natto'
+$ bundle install
+
+#インストール確認
+$ irb
+> require "natto"
+=> true
+> natto = Natto::MeCab.new
+=> 
+#<Natto::MeCab:0x007f7d0fca10a0
+  @model=#<FFI::Pointer address=0x007f7d1018b6c0>,
+  @tagger=#<FFI::Pointer address=0x007f7d10410600>,
+  @lattice=#<FFI::Pointer address=0x007f7d103cb6f0>,
+  @libpath="/usr/lib/libmecab.so",
+  @options={},
+  @dicts=[#<Natto::DictionaryInfo:0x007f7d0fc9e440
+    @filepath="/usr/share/mecab/dic/neologd/sys.dic", charset=UTF8, type=0>],
+  @version=0.996>
+> natto.parse("おはよう")
+=> "おはよう\t感動詞,*,*,*,*,*,おはよう,オハヨウ,オハヨー\nEOS\n"
+mecab-ipadic-neologdをインストールする
+neologd/mecab-ipadic-neologd/README.ja.md の通りにやれば問題ないです。
+依存パッケージが色々とあるが、インストールは省略する。
+$ git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
+$ cd mecab-ipadic-neologd.git
+$ ./bin/install-mecab-ipadic-neologd -n
+#辞書ファイルを配置するディレクトリを変えたければ-pオプションで指定
+$ ./bin/install-mecab-ipadic-neologd -n -p /usr/share/mecab/dic/neologd
+mecabのデフォルト辞書をneologdに変える
+mecabの設定を変えてしまえば、nattoはそれを利用する。
+
+vim /usr/local/etc/mecabrc // こっちの環境だとこのパスだった
+$ vim /etc/mecabrc
++ dicdir = /usr/share/mecab/dic/neologd
+
+#設定確認
+$ echo "のんのんびより りぴーと" | mecab
+のんのんびより りぴーと 名詞,固有名詞,一般,*,*,*,のんのんびよりりぴーと,ノンノンビヨリリピート,ノンノンビヨリリピート
+EOS
