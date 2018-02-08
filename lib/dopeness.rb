@@ -1,9 +1,8 @@
-require "romaji"
-require "romaji/core_ext/string"
+require "romankana"
 require "trigram"
 require "levenshtein"
 require "dopeness/version"
-require "dopeness/parse_chunks"
+require_relative "dopeness/parse_surfaces"
 require_relative "dopeness/parse_pronunciation"
 require_relative "dopeness/parse_vowels"
 
@@ -12,13 +11,13 @@ module Dopeness
 		threshold = 0.0     
 
         chunk_features = {}
-        chunks = parse_chunks(verse)
+        surfaces = parse_surfaces(verse)
         pronuncitaitons = parse_pronunciation(verse)          
 
-        vowels = []        
+        vowels = []
 
         pronuncitaitons.each do |pronuncitaiton|
-        	vowels.push(parse_vowels(pronuncitaiton.romaji))
+        	vowels.push(parse_vowels(pronuncitaiton.to_roman))
         end          
 
         (0 ... vowels.size).each do |i|
@@ -37,7 +36,6 @@ module Dopeness
             sorted_score = Hash[once_chunk_hash.sort_by{ |_, v| -v }]
             chunk_features.store(i, sorted_score)
         end        
-
-        return chunks, chunk_features
+        return surfaces, chunk_features
 	end
 end

@@ -2,7 +2,7 @@
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "dopeness/version"
-require "dopeness/parse_chunks"
+require "dopeness/parse_surfaces"
 
 Gem::Specification.new do |spec|
   spec.name          = "dopeness"
@@ -37,6 +37,7 @@ Rating is using Ngram and Lebenstein.}
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "mecab", "~> 0.996"
   spec.add_development_dependency "cabocha", "~> 0.69.1"
+  spec.add_development_dependency "romankana", "~> 0.2.1"
   spec.add_development_dependency "trigram", "~> 0.0.1"
   spec.add_development_dependency "levenshtein", "~> 0.2.2"
 end
