@@ -12,12 +12,11 @@ def crawler(target_url)
     return res.body.split("test2=")[1]
 end
 
-def show_features(chunks, chunk_features)
+def show_features(surfaces, chunk_features)
 	features_index = 0
-	puts (chunk_features)
 		chunk_features.each do |feature|
             print "\e[33m"
-            puts "[#{feature[0]}] #{chunks[feature[0]]}"
+            puts "[#{feature[0]}] #{surfaces[feature[0]]}"
             print "\e[0m"        
 
             if feature[1].empty? then
@@ -32,10 +31,10 @@ def show_features(chunks, chunk_features)
                     	if 0 < score && score < 3
                         	if 1 < score then
                             	print "\e[32m"
-                            	puts "\t[#{pos}] #{chunks[pos]} : #{score}" 
+                            	puts "\t[#{pos}] #{surfaces[pos]} : #{score}" 
                             	print "\e[0m"
                         	else
-                            	puts "\t[#{pos}] #{chunks[pos]} : #{score}" 
+                            	puts "\t[#{pos}] #{surfaces[pos]} : #{score}" 
                         	end
                         	loop_count += 1
                     	end
@@ -56,10 +55,6 @@ lyric = "
 verses = lyric.split("\n\n")
 verses.each do |verse|
 	puts verse
-	chunks, chunk_features = Dopeness.dope(verse)
-	# puts chunks
-	# puts chunk_features
-	show_features(chunks, chunk_features)
-	
-	# puts dope
+	surfaces, chunk_features = Dopeness.dope(verse)
+	show_features(surfaces, chunk_features)
 end

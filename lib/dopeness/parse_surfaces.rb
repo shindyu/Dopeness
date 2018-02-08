@@ -12,13 +12,13 @@ module Dopeness
     surfaces = []
     (0 ... tree.chunk_size).each do |i|
       chunk = tree.chunk(i)
-      if (chunk.link >= 0) then
-        x = (0 ... chunk.token_size).map do |j|
+      x = (0 ... chunk.token_size).map do |j|
+        if tree.token(chunk.token_pos + j).normalized_surface.force_encoding("UTF-8") != "*" then
           tree.token(chunk.token_pos + j).normalized_surface.force_encoding("UTF-8")
-        end.join("")
-      else
-        x = tree.token(chunk.token_pos).normalized_surface.force_encoding("UTF-8")
-      end
+        else
+          tree.token(chunk.token_pos).normalized_surface.force_encoding("UTF-8")
+        end
+      end.join("")
       surfaces.push(x)
     end
     return surfaces
