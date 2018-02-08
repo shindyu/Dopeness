@@ -9,7 +9,7 @@ def crawler(target_url)
     # uri = URI.parse('http://www.utamap.com/phpflash/flashfalsephp.php?unum=k-111208-003')
     uri = URI.parse(target_url)
     res = Net::HTTP.get_response(uri)
-    return res.body.split("test2=")[1]
+    return res.body.split("test2=")[1].force_encoding("UTF-8")
 end
 
 def show_features(surfaces, chunk_features)
@@ -28,8 +28,8 @@ def show_features(surfaces, chunk_features)
                     #     break
                     # end
                     if features_index != pos 
-                    	if 0 < score && score < 3
-                        	if 1 < score then
+                    	if 0 < score && score < 4
+                        	if 2 < score then
                             	print "\e[32m"
                             	puts "\t[#{pos}] #{surfaces[pos]} : #{score}" 
                             	print "\e[0m"
@@ -42,18 +42,33 @@ def show_features(surfaces, chunk_features)
                     
                 }
             end
-            puts "\n"
+            # puts "\n"
             features_index += 1
         end
 end
 
 
 lyric = crawler('http://www.utamap.com/phpflash/flashfalsephp.php?unum=k-160302-083')
-lyric = "
- 舌で巻いたライムがマイブラント。 チェックしろこれがライムガード。
-"
+lyric = "この氷河期じゃ　能書きじゃなく
+ひねる脳がｷｰ　要するに猛吹雪を
+毛布抜きで越えてく　肉弾戦でﾃｸﾆｯｸ
+出せん奴は脱落だ　辛くても立つ
+ラクダみたいに　前進する 
+飾らない　依然シースルーで
+見せてくのみ内面　まるで伸びない麺
+あったかさﾊﾟｯｹｰｼﾞ　音と言葉が合併し
+
+冬の街中で　ﾏｼﾞな賭けしなきゃ
+始まらね～　 母ちゃん曰く
+麻雀みたく あんたちゃんと
+がんばらんと　ｻﾝﾀｻﾝも来ないよ
+だから常夏まで　言葉つなげ"
+
+# 前処理
 verses = lyric.split("\n\n")
+
 verses.each do |verse|
+	verse = verse.gsub(/(\s)/,"。")
 	puts verse
 	surfaces, chunk_features = Dopeness.dope(verse)
 	show_features(surfaces, chunk_features)
