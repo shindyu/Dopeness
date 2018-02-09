@@ -30,12 +30,11 @@ Rating is using Ngram and Lebenstein.}
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.16"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "mecab", "~> 0.996"
-  spec.add_development_dependency "cabocha", "~> 0.69.1"
-  spec.add_development_dependency "romankana", "~> 0.2.1"
-  spec.add_development_dependency "trigram", "~> 0.0.1"
-  spec.add_development_dependency "levenshtein", "~> 0.2.2"
+  spec.add_dependency "bundler", "~> 1.16"
+  spec.add_dependency "rake", "~> 10.0"
+  spec.add_dependency "rspec", "~> 3.0"
+  spec.add_dependency "cabocha", "~> 0.69.1"
+  spec.add_dependency "romankana", "~> 0.2.1"
+  spec.add_dependency "trigram", "~> 0.0.1"
+  spec.add_dependency "levenshtein", "~> 0.2.2"
 end
